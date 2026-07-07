@@ -34,7 +34,9 @@ import {
   Maximize2,
   ChevronRight,
   ChevronLeft,
-  Settings
+  Settings,
+  Menu,
+  X
 } from 'lucide-react';
 
 type MainViewTab = 'dashboard' | 'chat' | 'kanban' | 'notes' | 'files' | 'members' | 'settings';
@@ -70,6 +72,7 @@ export default function WorkspacePage() {
 
   // Sidebar collapse
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const loadWorkspaceData = async () => {
     if (!workspaceId) return;
@@ -261,11 +264,19 @@ export default function WorkspacePage() {
   return (
     <div className="min-h-screen bg-[#F4F7FB] flex flex-col h-screen overflow-hidden" id="workspace-root">
       {/* Upper Action Bar */}
-      <header className="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between shrink-0 shadow-sm z-30" id="workspace-header">
-        <div className="flex items-center gap-4">
+      <header className="bg-white border-b border-slate-200 px-4 sm:px-6 py-3.5 flex items-center justify-between shrink-0 shadow-sm z-30" id="workspace-header">
+        <div className="flex items-center gap-2.5 sm:gap-4">
+          <button
+            onClick={() => setMobileSidebarOpen(true)}
+            className="md:hidden text-slate-500 hover:text-indigo-600 transition p-1.5 rounded-lg hover:bg-slate-50 shrink-0"
+            title="Open Sidebar Menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+
           <button
             onClick={() => navigate('/dashboard')}
-            className="text-slate-400 hover:text-indigo-600 transition p-1 rounded-lg hover:bg-slate-50"
+            className="text-slate-400 hover:text-indigo-600 transition p-1 rounded-lg hover:bg-slate-50 shrink-0"
             title="Return to Dashboard"
             id="ws-back-button"
           >
@@ -273,24 +284,24 @@ export default function WorkspacePage() {
           </button>
 
           <div className="flex items-center gap-3 text-left">
-            <div className="bg-indigo-600 text-white p-1.5 rounded-xl flex items-center justify-center">
+            <div className="hidden sm:flex bg-indigo-600 text-white p-1.5 rounded-xl items-center justify-center">
               <Share2 className="w-4.5 h-4.5" />
             </div>
             <div>
               <h1 className="font-display font-extrabold text-slate-900 text-sm md:text-base leading-none tracking-tight">{workspace.name}</h1>
-              <p className="text-[10px] text-slate-400 font-mono font-bold mt-1 leading-none uppercase">Aligned room code: {workspace.inviteCode}</p>
+              <p className="text-[10px] text-slate-400 font-mono font-bold mt-1 leading-none uppercase"><span className="hidden sm:inline">Aligned room code: </span>{workspace.inviteCode}</p>
             </div>
           </div>
         </div>
 
         {/* Invite Code widget */}
         <div className="flex items-center gap-4" id="header-invite-widget">
-          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-150 rounded-xl p-1.5 px-3 shadow-inner text-xs">
-            <span className="text-[9px] font-bold text-slate-400 uppercase">Code</span>
+          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-150 rounded-xl p-1.5 px-2 sm:px-3 shadow-inner text-xs">
+            <span className="hidden sm:inline text-[9px] font-bold text-slate-400 uppercase">Code</span>
             <code className="font-mono font-black text-indigo-700 tracking-wide">{workspace.inviteCode}</code>
             <button
               onClick={handleCopyCode}
-              className="text-slate-400 hover:text-indigo-600 transition"
+              className="text-slate-400 hover:text-indigo-650 transition"
               title="Copy Room invite code"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
@@ -301,33 +312,48 @@ export default function WorkspacePage() {
 
       {/* Main Workspace Frame */}
       <div className="flex-1 flex overflow-hidden relative" id="workspace-viewport">
+        {mobileSidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/60 z-40 md:hidden"
+            onClick={() => setMobileSidebarOpen(false)}
+          />
+        )}
         
         {/* LEFT TOOLBAR / SIDEBAR (Unified navigation + operations) */}
         <aside
-          className={`bg-[#111827] border-r border-slate-800 py-6 px-3 flex flex-col justify-between select-none shrink-0 transition-all duration-300 ${
-            sidebarCollapsed ? 'w-16' : 'w-56'
-          }`}
+          className={`bg-[#111827] border-r border-slate-800 py-6 px-3 flex flex-col justify-between select-none shrink-0 transition-all duration-300 fixed inset-y-0 left-0 z-50 md:static ${
+            mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+          } ${
+            sidebarCollapsed ? 'md:w-16' : 'md:w-56'
+          } w-56`}
           id="workspace-sidebar"
         >
           <div className="space-y-6">
             <div className="flex items-center justify-between px-2">
-              <span className={`text-[9px] font-bold text-slate-500 uppercase tracking-widest transition-opacity ${sidebarCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>
+              <span className={`text-[9px] font-bold text-slate-500 uppercase tracking-widest transition-opacity ${sidebarCollapsed ? 'md:opacity-0 md:hidden' : 'opacity-100'}`}>
                 Workspace Core
               </span>
               <button
                 onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+                className="hidden md:block text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
                 title={sidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
               >
                 {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+              </button>
+              <button
+                onClick={() => setMobileSidebarOpen(false)}
+                className="md:hidden text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+                title="Close Menu"
+              >
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             <div className="flex flex-col gap-1">
               {/* Dashboard Layout Toggle */}
               <button
-                onClick={() => setActiveTab('dashboard')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer ${
+                onClick={() => { setActiveTab('dashboard'); setMobileSidebarOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer min-h-[44px] ${
                   activeTab === 'dashboard'
                     ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-bold shadow-lg shadow-indigo-500/20 pl-4'
                     : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
@@ -337,14 +363,14 @@ export default function WorkspacePage() {
                 {activeTab === 'dashboard' && (
                   <span className="absolute left-0 top-3 bottom-3 w-1 bg-white rounded-r-md"></span>
                 )}
-                <Home className={`w-5 h-5 shrink-0 ${activeTab === 'dashboard' ? 'text-white' : 'text-slate-400 group-hover:text-slate-100'}`} />
-                <span className={`transition-opacity ${sidebarCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>Command Board</span>
+                <Home className={`w-5 h-5 shrink-0 ${activeTab === 'dashboard' ? 'text-white' : 'text-slate-400'}`} />
+                <span className={`transition-opacity ${sidebarCollapsed ? 'md:opacity-0 md:hidden' : 'opacity-100'}`}>Command Board</span>
               </button>
 
               {/* Full Stage Kanban focus */}
               <button
-                onClick={() => setActiveTab('kanban')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer ${
+                onClick={() => { setActiveTab('kanban'); setMobileSidebarOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer min-h-[44px] ${
                   activeTab === 'kanban'
                     ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-bold shadow-lg shadow-indigo-500/20 pl-4'
                     : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
@@ -354,14 +380,14 @@ export default function WorkspacePage() {
                 {activeTab === 'kanban' && (
                   <span className="absolute left-0 top-3 bottom-3 w-1 bg-white rounded-r-md"></span>
                 )}
-                <Kanban className={`w-5 h-5 shrink-0 ${activeTab === 'kanban' ? 'text-white' : 'text-slate-400 group-hover:text-slate-100'}`} />
-                <span className={`transition-opacity ${sidebarCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>Task Board</span>
+                <Kanban className={`w-5 h-5 shrink-0 ${activeTab === 'kanban' ? 'text-white' : 'text-slate-400'}`} />
+                <span className={`transition-opacity ${sidebarCollapsed ? 'md:opacity-0 md:hidden' : 'opacity-100'}`}>Task Board</span>
               </button>
 
               {/* Full Stage Notes focus */}
               <button
-                onClick={() => setActiveTab('notes')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer ${
+                onClick={() => { setActiveTab('notes'); setMobileSidebarOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer min-h-[44px] ${
                   activeTab === 'notes'
                     ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-bold shadow-lg shadow-indigo-500/20 pl-4'
                     : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
@@ -371,14 +397,14 @@ export default function WorkspacePage() {
                 {activeTab === 'notes' && (
                   <span className="absolute left-0 top-3 bottom-3 w-1 bg-white rounded-r-md"></span>
                 )}
-                <FileText className={`w-5 h-5 shrink-0 ${activeTab === 'notes' ? 'text-white' : 'text-slate-400 group-hover:text-slate-100'}`} />
-                <span className={`transition-opacity ${sidebarCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>Shared Notes</span>
+                <FileText className={`w-5 h-5 shrink-0 ${activeTab === 'notes' ? 'text-white' : 'text-slate-400'}`} />
+                <span className={`transition-opacity ${sidebarCollapsed ? 'md:opacity-0 md:hidden' : 'opacity-100'}`}>Shared Notes</span>
               </button>
 
               {/* Full Stage Assets focus */}
               <button
-                onClick={() => setActiveTab('files')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer ${
+                onClick={() => { setActiveTab('files'); setMobileSidebarOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer min-h-[44px] ${
                   activeTab === 'files'
                     ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-bold shadow-lg shadow-indigo-500/20 pl-4'
                     : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
@@ -388,14 +414,14 @@ export default function WorkspacePage() {
                 {activeTab === 'files' && (
                   <span className="absolute left-0 top-3 bottom-3 w-1 bg-white rounded-r-md"></span>
                 )}
-                <UploadCloud className={`w-5 h-5 shrink-0 ${activeTab === 'files' ? 'text-white' : 'text-slate-400 group-hover:text-slate-100'}`} />
-                <span className={`transition-opacity ${sidebarCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>Shared Assets</span>
+                <UploadCloud className={`w-5 h-5 shrink-0 ${activeTab === 'files' ? 'text-white' : 'text-slate-400'}`} />
+                <span className={`transition-opacity ${sidebarCollapsed ? 'md:opacity-0 md:hidden' : 'opacity-100'}`}>Shared Assets</span>
               </button>
 
               {/* Full Stage Team roster focus */}
               <button
-                onClick={() => setActiveTab('members')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer ${
+                onClick={() => { setActiveTab('members'); setMobileSidebarOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer min-h-[44px] ${
                   activeTab === 'members'
                     ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-bold shadow-lg shadow-indigo-500/20 pl-4'
                     : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
@@ -405,14 +431,14 @@ export default function WorkspacePage() {
                 {activeTab === 'members' && (
                   <span className="absolute left-0 top-3 bottom-3 w-1 bg-white rounded-r-md"></span>
                 )}
-                <Users className={`w-5 h-5 shrink-0 ${activeTab === 'members' ? 'text-white' : 'text-slate-400 group-hover:text-slate-100'}`} />
-                <span className={`transition-opacity ${sidebarCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>Team Roster</span>
+                <Users className={`w-5 h-5 shrink-0 ${activeTab === 'members' ? 'text-white' : 'text-slate-400'}`} />
+                <span className={`transition-opacity ${sidebarCollapsed ? 'md:opacity-0 md:hidden' : 'opacity-100'}`}>Team Roster</span>
               </button>
 
               {/* Workspace Settings */}
               <button
-                onClick={() => setActiveTab('settings')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer ${
+                onClick={() => { setActiveTab('settings'); setMobileSidebarOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition relative cursor-pointer min-h-[44px] ${
                   activeTab === 'settings'
                     ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-bold shadow-lg shadow-indigo-500/20 pl-4'
                     : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
@@ -422,8 +448,8 @@ export default function WorkspacePage() {
                 {activeTab === 'settings' && (
                   <span className="absolute left-0 top-3 bottom-3 w-1 bg-white rounded-r-md"></span>
                 )}
-                <Settings className={`w-5 h-5 shrink-0 ${activeTab === 'settings' ? 'text-white' : 'text-slate-400 group-hover:text-slate-100'}`} />
-                <span className={`transition-opacity ${sidebarCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>Room Settings</span>
+                <Settings className={`w-5 h-5 shrink-0 ${activeTab === 'settings' ? 'text-white' : 'text-slate-400'}`} />
+                <span className={`transition-opacity ${sidebarCollapsed ? 'md:opacity-0 md:hidden' : 'opacity-100'}`}>Room Settings</span>
               </button>
             </div>
           </div>
@@ -451,10 +477,10 @@ export default function WorkspacePage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex-1 flex flex-col md:flex-row h-full overflow-hidden"
+                className="flex-1 flex flex-col md:flex-row h-full overflow-y-auto md:overflow-hidden"
               >
                 {/* 1. CENTER PANE: Shared Notes, Task Board, Recent Activity */}
-                <div className="flex-1 h-full overflow-y-auto p-5 space-y-5 flex flex-col" id="workspace-center-pane">
+                <div className="flex-1 md:h-full overflow-y-auto p-4 sm:p-5 space-y-5 flex flex-col" id="workspace-center-pane">
                   
                   {/* Unified Tool Card Stage */}
                   <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col flex-1 min-h-0" id="center-interactive-widget">
@@ -561,7 +587,7 @@ export default function WorkspacePage() {
                 </div>
 
                 {/* 2. RIGHT PANE: Chat, Members Presence, Notifications */}
-                <div className="w-full md:w-96 border-t md:border-t-0 md:border-l border-slate-200 bg-white flex flex-col h-full shrink-0" id="workspace-right-pane">
+                <div className="w-full md:w-96 h-[500px] md:h-full border-t md:border-t-0 md:border-l border-slate-200 bg-white flex flex-col shrink-0" id="workspace-right-pane">
                   
                   {/* Top Presence list (horizontal view) */}
                   <div className="p-4 border-b border-slate-100 shrink-0 flex items-center justify-between" id="right-presence-panel">
@@ -608,7 +634,7 @@ export default function WorkspacePage() {
                 initial={{ opacity: 0, scale: 0.99 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.99 }}
-                className="flex-1 h-full overflow-y-auto p-8"
+                className="flex-1 h-full overflow-y-auto p-4 sm:p-8"
                 id="workspace-focused-stage"
               >
                 {activeTab === 'chat' && (

@@ -32,7 +32,7 @@ export default function MembersList({ detail, currentUser, onRefreshWorkspace, o
       setLoadingUserId(targetUserId);
       setError('');
       try {
-        await api.workspace.promote(workspace.id, targetUserId);
+        await api.workspace.promote(workspace.id || (workspace as any)._id, targetUserId);
         onRefreshWorkspace();
       } catch (err: any) {
         setError(err.message || 'Failed to promote member.');
@@ -47,7 +47,7 @@ export default function MembersList({ detail, currentUser, onRefreshWorkspace, o
       setLoadingUserId(targetUserId);
       setError('');
       try {
-        await api.workspace.demote(workspace.id, targetUserId);
+        await api.workspace.demote(workspace.id || (workspace as any)._id, targetUserId);
         onRefreshWorkspace();
       } catch (err: any) {
         setError(err.message || 'Failed to demote manager.');
@@ -62,7 +62,7 @@ export default function MembersList({ detail, currentUser, onRefreshWorkspace, o
       setLoadingUserId(targetUserId);
       setError('');
       try {
-        await api.workspace.removeMember(workspace.id, targetUserId);
+        await api.workspace.removeMember(workspace.id || (workspace as any)._id, targetUserId);
         onRefreshWorkspace();
       } catch (err: any) {
         setError(err.message || 'Failed to remove member.');
@@ -130,7 +130,7 @@ export default function MembersList({ detail, currentUser, onRefreshWorkspace, o
           return (
             <div
               key={member.id}
-              className="flex items-center justify-between p-3.5 bg-slate-50 border border-slate-150 rounded-xl"
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3.5 bg-slate-50 border border-slate-150 rounded-xl gap-3 text-left"
               id={`member-row-${member.id}`}
             >
               {/* Member Details */}
@@ -149,7 +149,7 @@ export default function MembersList({ detail, currentUser, onRefreshWorkspace, o
               </div>
 
               {/* Roles Badge & Administrative triggers */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto border-t sm:border-t-0 pt-2.5 sm:pt-0 border-slate-200/60">
                 {/* Role Badge */}
                 <span className={`text-[9px] uppercase font-extrabold px-2.5 py-0.5 rounded-full border ${
                   targetRole === 'Owner'
@@ -161,13 +161,13 @@ export default function MembersList({ detail, currentUser, onRefreshWorkspace, o
 
                 {/* Management Action Triggers */}
                 {(canPromote || canDemote || canKick) && (
-                  <div className="flex items-center gap-1.5 border-l border-slate-200/60 pl-4" id="member-actions-wrapper">
+                  <div className="flex items-center gap-3 border-l border-slate-200/60 pl-3" id="member-actions-wrapper">
                     {/* Promote/Demote */}
                     {canPromote && (
                       <button
                         onClick={() => handlePromote(member.id)}
                         disabled={loadingUserId === member.id}
-                        className="text-[10px] font-bold text-blue-600 hover:text-blue-700 flex items-center gap-0.5 cursor-pointer"
+                        className="text-[10px] font-bold text-blue-600 hover:text-blue-700 flex items-center gap-0.5 cursor-pointer min-h-[44px] sm:min-h-0"
                         title="Promote to Manager"
                       >
                         <UserCheck className="w-3.5 h-3.5" />
@@ -179,7 +179,7 @@ export default function MembersList({ detail, currentUser, onRefreshWorkspace, o
                       <button
                         onClick={() => handleDemote(member.id)}
                         disabled={loadingUserId === member.id}
-                        className="text-[10px] font-bold text-slate-500 hover:text-slate-700 flex items-center gap-0.5 cursor-pointer"
+                        className="text-[10px] font-bold text-slate-500 hover:text-slate-700 flex items-center gap-0.5 cursor-pointer min-h-[44px] sm:min-h-0"
                         title="Demote to Member"
                       >
                         <Shield className="w-3.5 h-3.5" />
@@ -192,7 +192,7 @@ export default function MembersList({ detail, currentUser, onRefreshWorkspace, o
                       <button
                         onClick={() => handleKick(member.id, member.name)}
                         disabled={loadingUserId === member.id}
-                        className="text-[10px] font-bold text-rose-600 hover:text-rose-700 flex items-center gap-0.5 cursor-pointer"
+                        className="text-[10px] font-bold text-rose-600 hover:text-rose-700 flex items-center gap-0.5 cursor-pointer min-h-[44px] sm:min-h-0"
                         title="Remove member"
                       >
                         <UserX className="w-3.5 h-3.5" />

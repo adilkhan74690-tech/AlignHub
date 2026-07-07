@@ -600,49 +600,49 @@ export default function DashboardPage() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-6 py-8" id="dashboard-main">
         
         {/* Row 1: Premium Analytics Grid with unique designs */}
-        <section className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8" id="analytics-grid">
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8" id="analytics-grid">
           
           {/* Active Workspaces Card */}
-          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm hover:shadow-md transition duration-200 flex items-center justify-between group relative overflow-hidden">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-3.5 sm:p-5 shadow-sm hover:shadow-md transition duration-200 flex items-center justify-between group relative overflow-hidden">
             <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-indigo-600"></div>
             <div className="space-y-1 text-left pl-1.5">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Hubs</span>
               <span className="text-3xl font-display font-black text-slate-800">{workspaces.length}</span>
               <span className="text-[9px] text-indigo-600 font-extrabold block bg-indigo-50 px-2 py-0.5 rounded-md inline-block uppercase tracking-wider">Active Rooms</span>
             </div>
-            <div className="bg-indigo-50 text-indigo-600 p-4 rounded-xl group-hover:scale-110 transition duration-200">
+            <div className="bg-indigo-50 text-indigo-600 p-4 rounded-xl group-hover:scale-110 transition duration-200 hidden sm:flex">
               <Layers className="w-5 h-5" />
             </div>
           </div>
 
           {/* Pending Tasks Card with Progress Arc */}
-          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm hover:shadow-md transition duration-200 flex items-center justify-between group relative overflow-hidden">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-3.5 sm:p-5 shadow-sm hover:shadow-md transition duration-200 flex items-center justify-between group relative overflow-hidden">
             <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-cyan-500"></div>
             <div className="space-y-1 text-left pl-1.5">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Assigned Tasks</span>
               <span className="text-3xl font-display font-black text-slate-800">{myTasks.length}</span>
               <span className="text-[9px] text-cyan-700 font-extrabold block bg-cyan-50 px-2 py-0.5 rounded-md inline-block uppercase tracking-wider">Awaiting action</span>
             </div>
-            <div className="bg-cyan-50 text-cyan-600 p-4 rounded-xl group-hover:scale-110 transition duration-200">
+            <div className="bg-cyan-50 text-cyan-600 p-4 rounded-xl group-hover:scale-110 transition duration-200 hidden sm:flex">
               <Briefcase className="w-5 h-5" />
             </div>
           </div>
 
           {/* Unread Alerts Stream */}
-          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm hover:shadow-md transition duration-200 flex items-center justify-between group relative overflow-hidden">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-3.5 sm:p-5 shadow-sm hover:shadow-md transition duration-200 flex items-center justify-between group relative overflow-hidden">
             <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-rose-500"></div>
             <div className="space-y-1 text-left pl-1.5">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Alert Stream</span>
               <span className="text-3xl font-display font-black text-slate-800">{unreadNotifsCount}</span>
               <span className="text-[9px] text-rose-700 font-extrabold block bg-rose-50 px-2 py-0.5 rounded-md inline-block uppercase tracking-wider">Unread Alerts</span>
             </div>
-            <div className="bg-rose-50 text-rose-500 p-4 rounded-xl group-hover:scale-110 transition duration-200">
+            <div className="bg-rose-50 text-rose-500 p-4 rounded-xl group-hover:scale-110 transition duration-200 hidden sm:flex">
               <Bell className="w-5 h-5" />
             </div>
           </div>
 
           {/* Productivity Velocity / Team Streak */}
-          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm hover:shadow-md transition duration-200 flex items-center justify-between group relative overflow-hidden">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-3.5 sm:p-5 shadow-sm hover:shadow-md transition duration-200 flex items-center justify-between group relative overflow-hidden">
             <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-emerald-500"></div>
             <div className="space-y-1 text-left pl-1.5">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Team Roster</span>
@@ -814,11 +814,11 @@ export default function DashboardPage() {
                     const stats = workspaceStats[ws.id] || { members: 0, tasks: 0, notes: 0, files: 0 };
                     return (
                       <motion.div
-                        key={ws.id}
-                        onClick={() => navigate(`/workspace/${ws.id}`)}
+                        key={ws.id || ws._id}
+                        onClick={() => navigate(`/workspace/${ws.id || ws._id}`)}
                         whileHover={{ y: -2 }}
                         className="bg-white border border-slate-250/70 hover:border-indigo-400/80 rounded-2xl p-5 shadow-sm hover:shadow-md cursor-pointer transition-all duration-200 flex flex-col justify-between text-left group relative overflow-hidden"
-                        id={`workspace-card-${ws.id}`}
+                        id={`workspace-card-${ws.id || ws._id}`}
                       >
                         {/* Premium Colored Left Borders */}
                         <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${isOwner ? 'bg-gradient-to-b from-indigo-650 to-indigo-500' : 'bg-gradient-to-b from-cyan-500 to-cyan-400'}`}></div>
@@ -923,7 +923,7 @@ export default function DashboardPage() {
                 <div className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm" id="tasks-focus-list">
                   <div className="divide-y divide-slate-100">
                     {myTasks.map((task) => {
-                      const parentWs = workspaces.find(w => w.id === task.workspaceId);
+                      const parentWs = workspaces.find(w => (w.id || w._id) === task.workspaceId);
                       return (
                         <div
                           key={task._id}
@@ -1255,7 +1255,7 @@ export default function DashboardPage() {
                   </div>
                 ) : (
                   recentActivities.map((act) => {
-                    const parentWs = workspaces.find(w => w.id === act.workspaceId);
+                    const parentWs = workspaces.find(w => (w.id || w._id) === act.workspaceId);
                     return (
                       <div key={act._id} className="text-xs flex gap-2 pl-0.5 relative">
                         <div className="flex flex-col items-center">

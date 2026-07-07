@@ -34,7 +34,7 @@ export default function WorkspaceHome({ detail, activities, onDeleteWorkspace }:
 
   const handleDownloadExport = () => {
     // Navigate directly to download route
-    const url = api.exportUrl(workspace.id);
+    const url = api.exportUrl(workspace.id || (workspace as any)._id);
     window.open(url, '_blank');
   };
 

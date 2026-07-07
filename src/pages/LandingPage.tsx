@@ -21,7 +21,7 @@ export default function LandingPage() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50 via-white to-white pointer-events-none"></div>
 
       {/* Tiny minimalist Header */}
-      <header className="px-8 py-6 flex items-center justify-between relative z-10 max-w-7xl mx-auto" id="landing-header">
+      <header className="px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10 max-w-7xl mx-auto" id="landing-header">
         <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => navigate('/')} id="landing-logo-block">
           <img src={logo} alt="AlignHub Logo" className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" id="landing-header-logo" />
           <span className="text-xl font-display font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 to-slate-900">AlignHub</span>
@@ -29,14 +29,14 @@ export default function LandingPage() {
         <div className="flex items-center gap-4" id="landing-nav-actions">
           <button
             onClick={() => navigate('/login')}
-            className="text-sm font-semibold text-slate-600 hover:text-indigo-600 px-4 py-2 rounded-xl transition duration-200"
+            className="text-sm font-semibold text-slate-600 hover:text-indigo-600 px-4 py-2 rounded-xl transition duration-200 min-h-[44px]"
             id="landing-btn-signin"
           >
             Sign In
           </button>
           <button
             onClick={() => navigate('/register')}
-            className="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-100"
+            className="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-100 min-h-[44px]"
             id="landing-btn-signup"
           >
             Create Free Account
@@ -45,22 +45,22 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <main className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-32 text-center" id="landing-main">
+      <main className="relative z-10 max-w-7xl mx-auto px-6 pt-16 sm:pt-24 pb-20 sm:pb-32 text-center" id="landing-main">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-5xl md:text-6xl font-display font-extrabold text-slate-900 tracking-tight leading-tight max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold text-slate-900 tracking-tight leading-tight max-w-3xl mx-auto">
             One Workspace. Real-Time Collaboration.
           </h1>
-          <p className="mt-6 text-lg text-slate-600 max-w-xl mx-auto">
+          <p className="mt-6 text-sm sm:text-lg text-slate-600 max-w-xl mx-auto">
             AlignHub allows teams to chat, manage tasks, share notes and collaborate in real time—all in one unified, high-performance environment.
           </p>
           <div className="mt-10 flex gap-4 justify-center">
             <button
               onClick={() => navigate('/register')}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3.5 rounded-xl transition duration-200 text-sm"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3.5 rounded-xl transition duration-200 text-sm min-h-[44px]"
               id="hero-cta-btn"
             >
               Get Started for Free

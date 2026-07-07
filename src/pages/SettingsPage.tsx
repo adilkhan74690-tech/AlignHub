@@ -73,20 +73,20 @@ export default function SettingsPage() {
   if (!user) return <div className="p-10 text-center">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
-      <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+    <div className="min-h-screen bg-slate-50 p-4 sm:p-6">
+      <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-8">
         <button
           onClick={() => navigate('/dashboard')}
-          className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 mb-6 transition"
+          className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 mb-6 transition min-h-[44px]"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Dashboard
         </button>
-
+ 
         <h1 className="text-2xl font-display font-black text-slate-900 mb-6">Account Settings</h1>
-
+ 
         {error && <p className="text-rose-600 text-sm mb-4 font-bold">{error}</p>}
-
+ 
         {/* Dynamic Avatar Preview */}
         <div className="flex flex-col items-center gap-2.5 pb-6 border-b border-slate-100 mb-6">
           <Avatar name={name || user.name} size="xl" />
@@ -95,7 +95,7 @@ export default function SettingsPage() {
             <span className="text-xs text-slate-400 block mt-0.5">(Updates instantly based on your name)</span>
           </div>
         </div>
-
+ 
         <form onSubmit={handleUpdateProfile} className="space-y-6">
           <div>
             <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Name</label>
@@ -103,37 +103,37 @@ export default function SettingsPage() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-indigo-500"
+              className="w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
-
+ 
           <div>
             <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-indigo-500"
+              className="w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
-
+ 
           <div>
             <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">New Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-indigo-500"
+              className="w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-indigo-500"
               placeholder="Leave empty to keep current password"
             />
           </div>
-
+ 
           <div className="pt-2">
             <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Notification Preferences</label>
             <div className="space-y-3">
-              <label className="flex items-center gap-3 cursor-pointer select-none">
+              <label className="flex items-center gap-3 cursor-pointer select-none min-h-[44px]">
                 <input
                   type="checkbox"
                   checked={emailNotifications}
@@ -142,7 +142,7 @@ export default function SettingsPage() {
                 />
                 <span className="text-sm text-slate-600 font-medium">Receive email notifications for updates & mentions</span>
               </label>
-              <label className="flex items-center gap-3 cursor-pointer select-none">
+              <label className="flex items-center gap-3 cursor-pointer select-none min-h-[44px]">
                 <input
                   type="checkbox"
                   checked={taskNotifications}
@@ -153,23 +153,23 @@ export default function SettingsPage() {
               </label>
             </div>
           </div>
-
+ 
           <button
             type="submit"
             disabled={loading}
-            className="flex items-center gap-2 bg-indigo-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-indigo-700 transition cursor-pointer"
+            className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 transition cursor-pointer min-h-[44px] w-full sm:w-auto"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             Save Changes
           </button>
         </form>
-
+ 
         <div className="mt-12 pt-8 border-t border-slate-200">
           <h2 className="text-lg font-bold text-rose-600 mb-4">Danger Zone</h2>
           <button
             onClick={handleDeleteAccount}
             disabled={loading}
-            className="flex items-center gap-2 text-rose-600 font-bold hover:text-rose-700 transition cursor-pointer"
+            className="flex items-center gap-2 text-rose-600 font-bold hover:text-rose-700 transition cursor-pointer min-h-[44px]"
           >
             <Trash2 className="w-4 h-4" />
             Delete Account

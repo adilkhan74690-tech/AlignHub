@@ -256,128 +256,130 @@ export default function KanbanBoard({ workspaceId, initialTasks, members, curren
         </form>
       )}
 
-      {/* Columns Grid */}
-      <div className="grid md:grid-cols-3 gap-6" id="kanban-columns">
-        {columns.map((col) => {
-          const colTasks = tasks.filter(t => t.status === col.name);
-          return (
-            <div key={col.name} className="bg-slate-50/50 border border-slate-200/60 rounded-2xl p-4 flex flex-col min-h-[450px]" id={`column-${col.name}`}>
-              {/* Column Label */}
-              <div className="flex items-center justify-between border-b border-slate-200/50 pb-3 mb-4">
-                <span className={`text-xs font-bold border px-2.5 py-1 rounded-full ${col.color}`}>
-                  {col.name}
-                </span>
-                <span className="text-xs text-slate-400 font-bold font-mono">
-                  {colTasks.length} Cards
-                </span>
-              </div>
+      {/* Columns Scrollable Container */}
+      <div className="overflow-x-auto pb-4 w-full" id="kanban-scroll-wrapper">
+        <div className="flex gap-6 min-w-[850px] md:min-w-0 md:grid md:grid-cols-3" id="kanban-columns">
+          {columns.map((col) => {
+            const colTasks = tasks.filter(t => t.status === col.name);
+            return (
+              <div key={col.name} className="bg-slate-50/50 border border-slate-200/60 rounded-2xl p-4 flex flex-col min-h-[450px] w-[280px] md:w-auto shrink-0 md:shrink text-left" id={`column-${col.name}`}>
+                {/* Column Label */}
+                <div className="flex items-center justify-between border-b border-slate-200/50 pb-3 mb-4">
+                  <span className={`text-xs font-bold border px-2.5 py-1 rounded-full ${col.color}`}>
+                    {col.name}
+                  </span>
+                  <span className="text-xs text-slate-400 font-bold font-mono">
+                    {colTasks.length} Cards
+                  </span>
+                </div>
 
-              {/* Column Cards Container */}
-              <div className="flex-1 overflow-y-auto space-y-3" id={`cards-list-${col.name}`}>
-                {colTasks.length === 0 ? (
-                  <div className="text-center py-16 text-slate-300 italic text-[11px]">
-                    No cards in column
-                  </div>
-                ) : (
-                  colTasks.map((task) => {
-                    // Find assignee info
-                    const assignee = members.find(m => m.id === task.assigneeId);
-                    
-                    return (
-                      <div
-                        key={task._id}
-                        className="bg-white border border-slate-200/80 rounded-xl p-4 shadow-sm hover:shadow-md transition space-y-3 relative group"
-                        id={`task-card-${task._id}`}
-                      >
-                        {/* Task Priority & Danger buttons */}
-                        <div className="flex items-center justify-between">
-                          <span className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded ${
-                            task.priority === 'High'
-                              ? 'bg-rose-50 text-rose-700 border border-rose-100/50'
-                              : (task.priority === 'Normal' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100/50' : 'bg-slate-100 text-slate-500 border border-slate-200/50')
-                          }`}>
-                            {task.priority} Priority
-                          </span>
+                {/* Column Cards Container */}
+                <div className="flex-1 overflow-y-auto space-y-3" id={`cards-list-${col.name}`}>
+                  {colTasks.length === 0 ? (
+                    <div className="text-center py-16 text-slate-300 italic text-[11px]">
+                      No cards in column
+                    </div>
+                  ) : (
+                    colTasks.map((task) => {
+                      // Find assignee info
+                      const assignee = members.find(m => m.id === task.assigneeId);
+                      
+                      return (
+                        <div
+                          key={task._id}
+                          className="bg-white border border-slate-200/80 rounded-xl p-4 shadow-sm hover:shadow-md transition space-y-3 relative group"
+                          id={`task-card-${task._id}`}
+                        >
+                          {/* Task Priority & Danger buttons */}
+                          <div className="flex items-center justify-between">
+                            <span className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded ${
+                              task.priority === 'High'
+                                ? 'bg-rose-50 text-rose-700 border border-rose-100/50'
+                                : (task.priority === 'Normal' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100/50' : 'bg-slate-100 text-slate-500 border border-slate-200/50')
+                            }`}>
+                              {task.priority} Priority
+                            </span>
 
-                          <button
-                            onClick={() => handleDeleteTask(task._id, task.title)}
-                            className="text-slate-300 hover:text-rose-600 transition opacity-0 group-hover:opacity-100"
-                            title="Delete Task"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
+                            <button
+                              onClick={() => handleDeleteTask(task._id, task.title)}
+                              className="text-slate-300 hover:text-rose-600 transition opacity-0 group-hover:opacity-100"
+                              title="Delete Task"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
 
-                        {/* Task Title & Details */}
-                        <div className="space-y-1">
-                          <h4 className="text-xs font-bold text-slate-800 leading-snug">{task.title}</h4>
-                          {task.description && (
-                            <p className="text-slate-500 text-[10px] leading-relaxed mt-1 line-clamp-3">
-                              {task.description}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Task Metadata line */}
-                        <div className="flex items-center justify-between border-t border-slate-50 pt-3 text-[10px] text-slate-400">
-                          {/* Assignee display */}
-                          <div className="flex items-center gap-1.5 font-medium text-slate-500">
-                            {assignee ? (
-                              <>
-                                <Avatar
-                                  name={assignee.name}
-                                  size="xs"
-                                  className="w-4 h-4 text-[7px]"
-                                />
-                                <span className="truncate max-w-[80px]">{assignee.name}</span>
-                              </>
-                            ) : (
-                              <>
-                                <UserIcon className="w-3.5 h-3.5 text-slate-300" />
-                                <span>Unassigned</span>
-                              </>
+                          {/* Task Title & Details */}
+                          <div className="space-y-1">
+                            <h4 className="text-xs font-bold text-slate-800 leading-snug break-words">{task.title}</h4>
+                            {task.description && (
+                              <p className="text-slate-500 text-[10px] leading-relaxed mt-1 line-clamp-3 break-words">
+                                {task.description}
+                              </p>
                             )}
                           </div>
 
-                          {/* Due Date display */}
-                          {task.dueDate && (
-                            <div className="flex items-center gap-1 font-mono text-[9px]">
-                              <Calendar className="w-3 h-3 text-slate-300" />
-                              <span>{new Date(task.dueDate).toLocaleDateString()}</span>
+                          {/* Task Metadata line */}
+                          <div className="flex items-center justify-between border-t border-slate-50 pt-3 text-[10px] text-slate-400">
+                            {/* Assignee display */}
+                            <div className="flex items-center gap-1.5 font-medium text-slate-500">
+                              {assignee ? (
+                                <>
+                                  <Avatar
+                                    name={assignee.name}
+                                    size="xs"
+                                    className="w-4 h-4 text-[7px]"
+                                  />
+                                  <span className="truncate max-w-[80px]">{assignee.name.split(' ')[0]}</span>
+                                </>
+                              ) : (
+                                <>
+                                  <UserIcon className="w-3.5 h-3.5 text-slate-300" />
+                                  <span>Unassigned</span>
+                                </>
+                              )}
                             </div>
-                          )}
+
+                            {/* Due date badge */}
+                            {task.dueDate && (
+                              <div className="flex items-center gap-1 text-slate-400 font-mono text-[9px]">
+                                <Calendar className="w-3 h-3 text-slate-300" />
+                                <span>{new Date(task.dueDate).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Move Status Buttons */}
+                          <div className="border-t border-slate-50 pt-2 flex justify-between gap-1 items-center" id="card-nav-actions">
+                            <button
+                              disabled={col.name === 'To Do'}
+                              onClick={() => handleMoveStatus(task._id, col.name, 'backward')}
+                              className="bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded p-1 transition disabled:opacity-20 cursor-pointer"
+                              title="Move Backward"
+                            >
+                              <ChevronLeft className="w-3.5 h-3.5 text-slate-600" />
+                            </button>
+
+                            <span className="text-[9px] font-bold text-slate-400 uppercase font-mono">Move card</span>
+
+                            <button
+                              disabled={col.name === 'Done'}
+                              onClick={() => handleMoveStatus(task._id, col.name, 'forward')}
+                              className="bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded p-1 transition disabled:opacity-20 cursor-pointer"
+                              title="Move Forward"
+                            >
+                              <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+                            </button>
+                          </div>
                         </div>
-
-                        {/* Move Status Buttons */}
-                        <div className="border-t border-slate-50 pt-2 flex justify-between gap-1 items-center" id="card-nav-actions">
-                          <button
-                            disabled={col.name === 'To Do'}
-                            onClick={() => handleMoveStatus(task._id, col.name, 'backward')}
-                            className="bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded p-1 transition disabled:opacity-20 cursor-pointer"
-                            title="Move Backward"
-                          >
-                            <ChevronLeft className="w-3.5 h-3.5 text-slate-600" />
-                          </button>
-
-                          <span className="text-[9px] font-bold text-slate-400 uppercase font-mono">Move card</span>
-
-                          <button
-                            disabled={col.name === 'Done'}
-                            onClick={() => handleMoveStatus(task._id, col.name, 'forward')}
-                            className="bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded p-1 transition disabled:opacity-20 cursor-pointer"
-                            title="Move Forward"
-                          >
-                            <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })
-                )}
+                      );
+                    })
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

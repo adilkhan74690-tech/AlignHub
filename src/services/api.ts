@@ -16,6 +16,28 @@ export function removeToken() {
   localStorage.removeItem('alignhub_token');
 }
 
+function normalizeIds(obj: any): any {
+  if (obj === null || obj === undefined) {
+    return obj;
+  }
+  if (typeof obj !== 'object') {
+    return obj;
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(normalizeIds);
+  }
+  const result: any = {};
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      result[key] = normalizeIds(obj[key]);
+    }
+  }
+  if (result._id && (!result.id || result.id === 'undefined')) {
+    result.id = typeof result._id === 'object' ? result._id.toString() : String(result._id);
+  }
+  return result;
+}
+
 // Global Fetch Wrapper
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = getToken();
@@ -40,7 +62,8 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     throw new Error(errorData.error || errorData.details || `HTTP error! Status: ${response.status}`);
   }
 
-  return response.json() as Promise<T>;
+  const data = await response.json();
+  return normalizeIds(data) as T;
 }
 
 // ==========================================

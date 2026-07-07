@@ -183,7 +183,7 @@ export default function FileStorage({ workspaceId, initialFiles, currentUser }: 
             <p className="text-[10px] text-slate-400 max-w-xs mx-auto">Drag and drop slides, assignments, or PDF worksheets above to share them with other members.</p>
           </div>
         ) : (
-          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm" id="files-table-card">
+          <div className="bg-white border border-slate-200 rounded-2xl overflow-x-auto shadow-sm" id="files-table-card">
             <table className="min-w-full divide-y divide-slate-100 text-left text-xs" id="files-table">
               <thead className="bg-slate-50 font-bold text-slate-500 text-[10px] uppercase tracking-wider">
                 <tr>

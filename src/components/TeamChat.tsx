@@ -144,7 +144,7 @@ export default function TeamChat({ workspaceId, initialMessages, currentUser }: 
                     <span className="text-[10px] font-bold text-slate-600 px-1">{msg.userName}</span>
                   )}
                   <div
-                    className={`p-3 rounded-2xl text-xs leading-relaxed break-all ${
+                    className={`p-3 rounded-2xl text-xs leading-relaxed break-words whitespace-pre-wrap ${
                       isMe
                         ? 'bg-gradient-to-tr from-indigo-600 to-indigo-500 text-white rounded-br-none shadow-md shadow-indigo-100'
                         : 'bg-gradient-to-tr from-slate-100 to-slate-50 text-slate-800 rounded-bl-none border border-slate-200/40'
@@ -179,7 +179,7 @@ export default function TeamChat({ workspaceId, initialMessages, currentUser }: 
           value={content}
           onChange={handleInputChange}
           placeholder="Type your message here..."
-          className="flex-1 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 focus:bg-white rounded-xl px-4 py-3 text-xs focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition-colors"
+          className="flex-1 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 focus:bg-white rounded-xl px-4 py-3 text-xs focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition-colors min-h-[44px]"
         />
         <button
           type="submit"

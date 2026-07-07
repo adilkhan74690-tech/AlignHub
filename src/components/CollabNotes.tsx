@@ -224,7 +224,7 @@ export default function CollabNotes({ workspaceId, initialNotes, currentUser }: 
   return (
     <div className="grid md:grid-cols-12 gap-6" id="notes-grid-layout">
       {/* Left Column: Documents Selector */}
-      <div className="md:col-span-4 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col h-[500px]" id="notes-sidebar">
+      <div className="md:col-span-4 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col h-[250px] md:h-[500px]" id="notes-sidebar">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
           <span className="text-xs font-bold text-slate-800 uppercase flex items-center gap-1.5">
             <FileText className="w-4 h-4 text-indigo-500" />
@@ -279,10 +279,10 @@ export default function CollabNotes({ workspaceId, initialNotes, currentUser }: 
       {/* Right Column: Editor and History */}
       <div className="md:col-span-8 space-y-4" id="notes-editor-panel">
         {selectedNote ? (
-          <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col h-[500px]" id="active-editor-card">
+          <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col h-[400px] md:h-[500px]" id="active-editor-card">
             
             {/* Editor Utilities Line */}
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between border-b border-slate-100 pb-3 mb-4">
               {/* Active peer editors bubbles */}
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4 text-slate-400" />
