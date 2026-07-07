@@ -1,6 +1,7 @@
 import { User, Workspace, WorkspaceDetail, Task, Message, FileMeta, Note, NoteHistoryItem, Notification, Activity } from '../types';
 
-const API_BASE = '/api';
+const API_BASE =
+  import.meta.env.VITE_API_URL || '/api';
 
 // Token Management
 export function getToken(): string | null {
