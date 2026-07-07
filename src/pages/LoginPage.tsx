@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { api } from '../services/api';
 import { Share2, Lock, Mail, Loader2, ArrowLeft, ShieldCheck } from 'lucide-react';
+import logo from '../assets/AlignHub.png';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -53,7 +54,7 @@ export default function LoginPage() {
           className="flex justify-center mb-5"
           id="login-logo-wrapper"
         >
-          <img src="/assets/AlignHub.png" alt="AlignHub Logo" className="h-10 w-auto object-contain" />
+          <img src={logo} alt="AlignHub Logo" className="h-10 w-auto object-contain" />
         </motion.div>
         <motion.h2
           initial={{ opacity: 0, y: 10 }}

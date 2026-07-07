@@ -4,6 +4,7 @@ interface AvatarProps {
   name: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
+  key?: any;
 }
 
 export function getInitials(name: string): string {

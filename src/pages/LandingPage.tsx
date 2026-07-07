@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Share2, ArrowRight, ShieldCheck, Zap, Globe, FileText, Kanban, MessageSquare } from 'lucide-react';
+import logo from '../assets/AlignHub.png';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function LandingPage() {
       {/* Tiny minimalist Header */}
       <header className="px-8 py-6 flex items-center justify-between relative z-10 max-w-7xl mx-auto" id="landing-header">
         <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => navigate('/')} id="landing-logo-block">
-          <img src="/assets/AlignHub.png" alt="AlignHub Logo" className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" id="landing-header-logo" />
+          <img src={logo} alt="AlignHub Logo" className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" id="landing-header-logo" />
           <span className="text-xl font-display font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 to-slate-900">AlignHub</span>
         </div>
         <div className="flex items-center gap-4" id="landing-nav-actions">
@@ -123,7 +124,7 @@ export default function LandingPage() {
       {/* Tiny, clean professional footer */}
       <footer className="px-8 py-12 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4" id="landing-footer">
         <div className="flex items-center gap-2">
-          <img src="/assets/AlignHub.png" alt="AlignHub Logo" className="h-6 w-auto object-contain" id="landing-footer-logo" />
+          <img src={logo} alt="AlignHub Logo" className="h-6 w-auto object-contain" id="landing-footer-logo" />
           <span className="ml-1">Enterprise Collaborative Platform</span>
         </div>
         <div>

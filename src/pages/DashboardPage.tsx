@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { api } from '../services/api';
+import logo from '../assets/AlignHub.png';
 import { getSocket, resetSocket } from '../services/socket';
 import { User, Workspace, Notification, Task, Activity, FileMeta, Note } from '../types';
 import Avatar from '../components/Avatar';
@@ -435,7 +436,7 @@ export default function DashboardPage() {
           
           {/* Logo Brand */}
           <div className="flex items-center gap-2.5">
-            <img src="/assets/AlignHub.png" alt="AlignHub Logo" className="h-8 w-auto object-contain" id="dashboard-header-logo" />
+            <img src={logo} alt="AlignHub Logo" className="h-8 w-auto object-contain" id="dashboard-header-logo" />
             <span className="text-base font-display font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 to-slate-900">AlignHub</span>
             <span className="hidden sm:inline-flex text-[9px] bg-indigo-50 border border-indigo-100/50 text-indigo-700 px-2 py-0.5 rounded-full font-extrabold ml-1 uppercase tracking-wider">
               Workspace Portal
@@ -1287,7 +1288,7 @@ export default function DashboardPage() {
       {/* Modern Centered Brand Footer */}
       <footer className="mt-auto px-6 py-5 border-t border-slate-200/50 bg-white flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4" id="dashboard-footer">
         <div className="flex items-center gap-2">
-          <img src="/assets/AlignHub.png" alt="AlignHub Logo" className="h-6 w-auto object-contain" />
+          <img src={logo} alt="AlignHub Logo" className="h-6 w-auto object-contain" />
           <span className="ml-1">Enterprise Collaborative Platform</span>
         </div>
         <div>
