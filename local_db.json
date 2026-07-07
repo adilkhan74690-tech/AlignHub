@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "_id": "289lpi78pxq7g7akqd30wo",
+      "id": "289lpi78pxq7g7akqd30wo",
+      "name": "Test User",
+      "email": "test@gmail.com",
+      "password": "$2b$10$sMszB7Ay.JQKkfr/HHFrD.qQsSd7.aTgEmBrqwv5SLACFHiFz.3Li",
+      "avatarUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuDv7na6LmHB0BxVt2fkiCtPwkT_gNkjVb_ML9v8jHaznw0TVufe-DMgDtQf2EuDSx4BAA5oacVjt0cwxRNeciWQUqaJlqdVnTr0WBCjanKEc1aiQLevATeAhgqsstgA5FEXBciorrKvy49YAHQUXazA0CS_XdzDiY5hicH9fCKHhU2g2dEYqcC2Ae8h5JgOSfhiGQ1dNO5WGooyYL7IaFt-Dpyp_G0uuMltxiZHTJdKhNTFy1DSW5CA",
+      "createdAt": "2026-07-07T10:41:16.599Z"
+    }
+  ],
+  "workspaces": [],
+  "tasks": [],
+  "messages": [],
+  "files": [],
+  "notes": [],
+  "noteHistories": [],
+  "notifications": [],
+  "activities": []
+}

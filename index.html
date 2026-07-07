@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Google AI Studio App</title>
+    <script>
+      // Fix for "Cannot set property fetch of #<Window> which has only a getter" error in sandboxed environments
+      try {
+        const target = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : this;
+        if (target && target.fetch) {
+          const descriptor = Object.getOwnPropertyDescriptor(target, 'fetch');
+          if (!descriptor || descriptor.configurable || descriptor.writable || !descriptor.set) {
+            const originalFetch = target.fetch;
+            let currentFetch = originalFetch;
+            Object.defineProperty(target, 'fetch', {
+              get() {
+                return currentFetch;
+              },
+              set(val) {
+                currentFetch = val;
+              },
+              configurable: true,
+              enumerable: true
+            });
+          }
+        }
+      } catch (e) {
+        console.warn('Could not define safe fetch setter:', e);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
