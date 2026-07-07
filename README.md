@@ -1,20 +1,102 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# AlignHub
 
-# Run and deploy your AI Studio app
+AlignHub is a real-time collaborative workspace built as part of the Readynest Week 4 Full Stack Development Internship.
 
-This contains everything you need to run your app locally.
+The goal of this project is to provide a single workspace where multiple users can communicate, manage tasks, share notes, and collaborate in real time.
 
-View your app in AI Studio: https://ai.studio/apps/6290a54e-c8ee-4466-94a6-774ed73f4de5
+## Features
 
-## Run Locally
+- User Registration & Login
+- JWT Authentication
+- Create and Join Workspaces
+- Real-Time Chat
+- Shared Notes
+- Kanban Task Board
+- Online User Status
+- Activity Tracking
+- Role-Based Access
+- Notifications
+- MongoDB Data Persistence
+- Responsive UI
 
-**Prerequisites:**  Node.js
+## Tech Stack
 
+### Frontend
+- React (Vite)
+- Tailwind CSS
+- React Router
+- Socket.IO Client
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### Backend
+- Node.js
+- Express.js
+- Socket.IO
+- JWT
+- Bcrypt
+- Multer
+
+### Database
+- MongoDB Atlas
+
+## Getting Started
+
+Clone the repository
+
+```bash
+git clone https://github.com/adilkhan74690-tech/AlignHub.git
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Create a `.env` file inside the server folder.
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+```
+
+Run the project
+
+```bash
+npm run dev
+```
+
+## Demo Account
+
+You can use the following account to explore the application.
+
+**Email**
+
+```
+test@gmail.com
+```
+
+**Password**
+
+```
+123456
+```
+
+## Folder Structure
+
+```
+client/
+server/
+```
+
+Both folders are separated to keep the frontend and backend independent and easier to maintain.
+
+## Future Scope
+
+- Live Cursor Tracking
+- Version History
+- Export Workspace Data
+- Workspace Invitations
+
+## Author
+
+**Mohammad Adil Khan**
